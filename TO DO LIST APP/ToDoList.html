@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do List</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color:7fb989;
+    }
+
+    #container {
+      background-color:97edaf;
+      width: 400px;
+      margin: 50px auto;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;                                          /*Cambia el cursor por un dedo cuando señala este elemento*/
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .completed {
+      text-decoration: line-through;                            /*Crea una línea horizontal que atraviesa el texto, tachado*/
+      color: gray;
+    }
+  </style>
+</head>
+
+
+
+<body>
+
+  <div id="container">
+    <h1>To-Do List</h1>
+    <input type="text" id="taskInput" placeholder="Agregar tarea...">
+    <button onclick="addTask()">Agregar</button>               <!---Cuando se hace clic se ejecutara la funcion addTask-->
+
+    <ul id="taskList">                                         <!---Crea una lista vacia-->
+      </ul>
+  </div>
+  
+
+
+  <script>
+    let tasks = [];                                            /*Crea una lista vacia*/
+
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');  /*Guarda en una variable el valor que encuentra en "taskInput"*/
+      const taskText = taskInput.value.trim();                 /*Elimina los espacios iniciales y finales del valor*/
+      if (taskText !== "") {                                   /*Si es diferente de 0... osea si hay contenido ejecuta*/
+        tasks.push({ text: taskText, completed: false });      /*.push agrega valores a un array, una variable text:taskTex y completed:false*/
+        renderTasks();                                         /*Llama a render task*/
+        taskInput.value = "";                                  /*Resetea el input de tareas*/
+      }
+    }
+
+    function renderTasks() {                                   /*Rederizar=previzualizar?*/
+      const taskList = document.getElementById('taskList');    /*Crea una variable llamada "tasklist" donde guarda la lista de tareas*/
+      taskList.innerHTML = '';                                 /*Limpia toda la lista*/
+
+      tasks.forEach((task, index) => {                         //Itera sobre cada elemento del array (task) hasta acabar los elementos 
+     
+        const li = document.createElement('li');               //Crea un elemento li y lo guarda en una variable li
+        li.textContent = task.text;                            //Guarda en el li creado el contenido de task
+        if (task.completed) {                                  //Pregunta cual es el contenido de task.completed (direccion) v or false
+          li.classList.add('completed');                       //Si la tarea se marca completada agrega la clase "completed" al li (osea el tachado)
+        }
+        const checkbox = document.createElement('input');      //Crea un elemento input y lo guarda en checkbox
+        checkbox.type = 'checkbox';                            //Agreaga atributos, es de tipo checkbox
+        checkbox.checked = task.completed;                     //En el area de revision (checked) le agrega el valor=task.completed que puede ser V o F
+        
+        checkbox.addEventListener('change', () => {            //Es un escuchador, cuando reciba la señal (cambio en el checked) se recibe lo que esta en () y ejecutara {} 
+          task.completed = checkbox.checked;                   //si es verdader guarda en task.completed el valor de check.checked 
+          renderTasks();                                       //mostrar o actualizar una lista de tareas en la interfaz de usuario despues de marcar
+        });                               
+
+        const deleteButton = document.createElement('button'); //crea deleteButton y guarda alli un button
+        deleteButton.textContent = 'Eliminar';                 //existe un elemento con el id deletebutton y dentro de >texto< cambia el contenido aqui
+        deleteButton.addEventListener('click', () => {         //cuando pulsan delete 
+          tasks.splice(index, 1);                              // el 2do indica el número de elementos que quieres eliminar a partir del índice inicio.
+          renderTasks();                                       // Actualiza la lista después de eliminar
+        });
+
+        li.appendChild(checkbox);                              //Permite añadir un elemento en html como hijo de otro nodo existente nodo=cualquier elemento  
+        li.appendChild(deleteButton);                          //toma deleteButton y lo publica como una lista
+        taskList.appendChild(li);                              //Crea un elemento li y lo guarda en la ubicacion taskList
+      });
+    }
+  </script>
+
+</body>
+</html>  
+
+<!---tasks = []
+addTask(){
+70.tasks=[];
+73.taskInput=  hola
+74.taskText=hola
+75.true=>
+76.task=[text:hola,completed:false]
+77.renderTask()
+83.taskList="tasklist"="";
+84."tasklist"="";
+86. >> [text:hola, completed:false]
+88.li=:"li"
+*89."li"=hola;
+90.false... si hay cambios se le añade la clase -->
+
